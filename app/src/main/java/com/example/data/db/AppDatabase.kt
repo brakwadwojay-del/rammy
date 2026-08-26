@@ -39,8 +39,9 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "spend_tracker_database"
                 )
-                .fallbackToDestructiveMigration()
-                .build()
+                    // Never silently delete a user's financial history when the schema changes.
+                    // Future schema changes must provide an explicit Room Migration.
+                    .build()
                 INSTANCE = instance
                 instance
             }
