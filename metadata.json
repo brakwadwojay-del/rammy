@@ -1,5 +1,5 @@
 {
-  "name": "Rammys Spend Tracker",
+  "name": "Rammy's Spend Tracker",
   "description": "Know your money. Own your day. Smart daily spending and budgeting with dynamic allowance rebalancing.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
