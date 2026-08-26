@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Orbital Swoosh Arc -->
+    <path
+        android:strokeColor="#80C7B3ED"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M 28,68 A 28,28 0 1,1 80,42" />
+
+    <!-- Banknote popping up -->
+    <path
+        android:fillColor="#80CBC4"
+        android:pathData="M 38,30 h 32 a 4,4 0 0 1 4,4 v 18 h -40 v -18 a 4,4 0 0 1 4,-4 z" />
+    <path
+        android:fillColor="#A7F3D0"
+        android:pathData="M 40,32 h 28 a 3,3 0 0 1 3,3 v 15 h -34 v -15 a 3,3 0 0 1 3,-3 z" />
+    <!-- Banknote Emblem -->
+    <path
+        android:fillColor="#4DB6AC"
+        android:pathData="M 54,39 a 3.5,3.5 0 1 0 0.01,0" />
+
+    <!-- Growth Bars -->
+    <path
+        android:fillColor="#6EE7B7"
+        android:pathData="M 74,54 h 4 a 1.5,1.5 0 0 1 1.5,1.5 v 14.5 h -7 v -14.5 a 1.5,1.5 0 0 1 1.5,-1.5 z" />
+    <path
+        android:fillColor="#34D399"
+        android:pathData="M 82,44 h 4 a 1.5,1.5 0 0 1 1.5,1.5 v 24.5 h -7 v -24.5 a 1.5,1.5 0 0 1 1.5,-1.5 z" />
+    <!-- Growth Arrow -->
+    <path
+        android:strokeColor="#6EE7B7"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:pathData="M 72,52 Q 78,44 88,34" />
+    <path
+        android:fillColor="#6EE7B7"
+        android:pathData="M 89,31 L 83,34 L 88,39 Z" />
+
+    <!-- Wallet Body (Lavender) -->
+    <path
+        android:fillColor="#AF98DE"
+        android:pathData="M 32,44 h 44 a 7,7 0 0 1 7,7 v 26 a 7,7 0 0 1 -7,7 h -44 a 7,7 0 0 1 -7,-7 v -26 a 7,7 0 0 1 7,-7 z" />
+
+    <!-- Wallet Flap Accent -->
+    <path
+        android:fillColor="#967ECB"
+        android:pathData="M 25,52 h 58 v 10 h -58 z" />
+
+    <!-- Wallet Strap -->
+    <path
+        android:fillColor="#7E65B5"
+        android:pathData="M 64,58 h 16 a 5,5 0 0 1 5,5 v 2 a 5,5 0 0 1 -5,5 h -16 z" />
+    <!-- Strap Metal Snap -->
+    <path
+        android:fillColor="#2E1C52"
+        android:pathData="M 78,64.5 a 3,3 0 1 0 0.01,0" />
+    <path
+        android:fillColor="#C7B3ED"
+        android:pathData="M 78,64.5 a 1.2,1.2 0 1 0 0.01,0" />
+
+    <!-- Foreground Gold Cedi Coin -->
+    <path
+        android:fillColor="#FFCA28"
+        android:pathData="M 38,72 a 13,13 0 1 0 0.01,0" />
+    <path
+        android:strokeColor="#FFA000"
+        android:strokeWidth="1.2"
+        android:pathData="M 38,72 a 10.5,10.5 0 1 0 0.01,0" />
+    <!-- Cedi Sign ₵ on Coin -->
+    <path
+        android:strokeColor="#D97706"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:pathData="M 42,68 A 5.5,5.5 0 1,0 42,76" />
+    <path
+        android:strokeColor="#D97706"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M 38,64 L 38,80" />
+
+</vector>
+
+
