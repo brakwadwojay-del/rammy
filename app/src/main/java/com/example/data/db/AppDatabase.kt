@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.data.model.AppPreferences
 import com.example.data.model.BudgetProfile
 import com.example.data.model.DailySpendingRecord
@@ -18,7 +20,7 @@ import com.example.data.model.ExpensePreset
         ExpensePreset::class,
         AppPreferences::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -29,6 +31,13 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun appPreferencesDao(): AppPreferencesDao
 
     companion object {
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Version 8 does not change the database schema. This explicit migration
+                // preserves existing local financial data without destructive fallback.
+            }
+        }
+
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
@@ -39,8 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "spend_tracker_database"
                 )
-                    // Never silently delete a user's financial history when the schema changes.
-                    // Future schema changes must provide an explicit Room Migration.
+                    .addMigrations(MIGRATION_7_8)
                     .build()
                 INSTANCE = instance
                 instance
