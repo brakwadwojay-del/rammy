@@ -119,26 +119,16 @@ fun SetupScreen(
     var showSalaryReceivedPicker by remember { mutableStateOf(false) }
     var showNextSalaryPicker by remember { mutableStateOf(false) }
 
-    var foodExpenseText by remember {
-        mutableStateOf(initialProfile?.dailyFoodExpense?.takeIf { it > 0 }?.let { SpendingCalculator.formatExactDecimal(it) } ?: "")
-    }
-    var transportExpenseText by remember {
-        mutableStateOf(initialProfile?.dailyTransportExpense?.takeIf { it > 0 }?.let { SpendingCalculator.formatExactDecimal(it) } ?: "")
-    }
-
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
 
     val salaryAmount = salaryText.toDoubleOrNull() ?: 0.0
     val savingsGoal = savingsGoalText.toDoubleOrNull() ?: 0.0
-    val foodExpense = foodExpenseText.toDoubleOrNull() ?: 0.0
-    val transportExpense = transportExpenseText.toDoubleOrNull() ?: 0.0
 
     val totalCycleDays = SpendingCalculator.calculateCycleDays(salaryReceivedDate, nextSalaryDate)
     val spendablePool = SpendingCalculator.calculateAvailableSpendingPool(salaryAmount, savingsGoal)
     val initialDailyAllowance = if (totalCycleDays > 0) spendablePool / totalCycleDays else 0.0
-    val dailyBreakdown = SpendingCalculator.calculateDailyBreakdown(initialDailyAllowance, foodExpense, transportExpense)
 
     val isFormValid = salaryAmount > 0.0 &&
             savingsGoal >= 0.0 &&
@@ -426,78 +416,6 @@ fun SetupScreen(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .bringIntoViewOnFocus()
-                    .testTag("monthly_savings_input"),
-                shape = RoundedCornerShape(16.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = BentoDeepPurple,
-                    unfocusedBorderColor = BentoOutlineLight
-                )
-            )
-
-            // Average Daily Food Expense (Optional)
-            OutlinedTextField(
-                value = foodExpenseText,
-                onValueChange = { input ->
-                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                        foodExpenseText = input
-                    }
-                },
-                label = { Text("Average daily food expense (Optional)") },
-                placeholder = { Text("e.g. 20.00") },
-                prefix = {
-                    Text(
-                        text = "GH₵ ",
-                        fontWeight = FontWeight.Bold,
-                        color = BentoDeepPurple
-                    )
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .bringIntoViewOnFocus()
-                    .testTag("daily_food_input"),
-                shape = RoundedCornerShape(16.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = BentoDeepPurple,
-                    unfocusedBorderColor = BentoOutlineLight
-                )
-            )
-
-            // Average Daily Transportation Expense (Optional)
-            OutlinedTextField(
-                value = transportExpenseText,
-                onValueChange = { input ->
-                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                        transportExpenseText = input
-                    }
-                },
-                label = { Text("Average daily transport expense (Optional)") },
-                placeholder = { Text("e.g. 15.00") },
-                prefix = {
-                    Text(
-                        text = "GH₵ ",
-                        fontWeight = FontWeight.Bold,
-                        color = BentoDeepPurple
-                    )
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -506,7 +424,7 @@ fun SetupScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .bringIntoViewOnFocus()
-                    .testTag("daily_transport_input"),
+                    .testTag("monthly_savings_input"),
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = BentoDeepPurple,
@@ -575,79 +493,6 @@ fun SetupScreen(
                                 color = BentoDeepPurple
                             )
                         }
-
-                        if (foodExpense > 0 || transportExpense > 0) {
-                            HorizontalDivider(color = BentoLavenderAccent.copy(alpha = 0.5f))
-
-                            Text(
-                                text = "Daily Breakdown (Informational)",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = BentoDeepPurple
-                            )
-
-                            if (foodExpense > 0) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        text = "Expected food",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = BentoSecondaryLight
-                                    )
-                                    Text(
-                                        text = "GH₵${SpendingCalculator.formatExactDecimal(dailyBreakdown.food)}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = BentoDeepPurple
-                                    )
-                                }
-                            }
-
-                            if (transportExpense > 0) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        text = "Expected transportation",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = BentoSecondaryLight
-                                    )
-                                    Text(
-                                        text = "GH₵${SpendingCalculator.formatExactDecimal(dailyBreakdown.transport)}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = BentoDeepPurple
-                                    )
-                                }
-                            }
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = "Other spending",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = BentoSecondaryLight
-                                )
-                                Text(
-                                    text = "GH₵${SpendingCalculator.formatExactDecimal(dailyBreakdown.other)}",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = BentoDeepPurple
-                                )
-                            }
-
-                            Text(
-                                text = "Food and transportation are part of this daily amount, not additional money.",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = BentoOnSurfaceVariantLight,
-                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
-                            )
-                        }
                     }
                 }
             }
@@ -668,8 +513,8 @@ fun SetupScreen(
                             savingsGoal,
                             receivedStr,
                             nextStr,
-                            foodExpense,
-                            transportExpense
+                            0.0,
+                            0.0
                         )
                     }
                 },
